@@ -1,0 +1,22 @@
+# Ignore storage directory
+storage/
+storage/**/*
+
+.enhancements/
+.bugs/
+.features/
+
+# Common directories to ignore
+/node_modules/
+/vendor/
+
+# Build artifacts
+/public/build/
+/public/hot/
+/public/storage/
+/coverage/
+
+# Laravel specific
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml

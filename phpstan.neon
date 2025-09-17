@@ -1,0 +1,12 @@
+parameters:
+    paths:
+        - app
+        - config
+        - database
+    excludePaths:
+        - tests/*
+        - routes/*
+        - resources/views/livewire/*
+        - resources/views/flux/*
+        - app/Livewire/*
+    level: 5
