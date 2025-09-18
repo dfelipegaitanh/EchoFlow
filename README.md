@@ -6,11 +6,11 @@ EchoFlow integrates with Last.fm, Deezer, and Spotify to collect and display mus
 
 1. Duplicate the sample environment file and install dependencies:
 
-   ```bash
-   cp .env.example .env
-   composer install
-   npm install
-   ```
+    ```bash
+    cp .env.example .env
+    composer install
+    npm install
+    ```
 
 2. Create the credentials described below.
 3. Update `.env` with your keys and then run `php artisan config:clear` so Laravel picks up the new values.
@@ -19,10 +19,10 @@ EchoFlow integrates with Last.fm, Deezer, and Spotify to collect and display mus
 
 ## Last.fm configuration
 
-| Variable | Description |
-| --- | --- |
-| `LASTFM_API_KEY` | API key issued from your Last.fm developer account. |
-| `LASTFM_USER` | Last.fm username whose listening data the app will fetch. |
+| Variable         | Description                                               |
+| ---------------- | --------------------------------------------------------- |
+| `LASTFM_API_KEY` | API key issued from your Last.fm developer account.       |
+| `LASTFM_USER`    | Last.fm username whose listening data the app will fetch. |
 
 How to obtain the credentials:
 
@@ -32,11 +32,11 @@ How to obtain the credentials:
 
 ## Deezer configuration
 
-| Variable | Description |
-| --- | --- |
-| `DEEZER_APP_ID` | Numeric identifier provided for your Deezer application. |
-| `DEEZER_APP_NAME` | Display name you assign to the Deezer application. |
-| `DEEZER_APP_KEY` | Secret key used to sign Deezer API requests. |
+| Variable            | Description                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------------- |
+| `DEEZER_APP_ID`     | Numeric identifier provided for your Deezer application.                                  |
+| `DEEZER_APP_NAME`   | Display name you assign to the Deezer application.                                        |
+| `DEEZER_APP_KEY`    | Secret key used to sign Deezer API requests.                                              |
 | `DEEZER_APP_DOMAIN` | Redirect domain you authorize in the Deezer developer console (often `http://localhost`). |
 
 How to obtain the credentials:
@@ -47,9 +47,9 @@ How to obtain the credentials:
 
 ## Spotify configuration
 
-| Variable | Description |
-| --- | --- |
-| `SPOTIFY_KEY` | Spotify Client ID for your application. |
+| Variable         | Description                                      |
+| ---------------- | ------------------------------------------------ |
+| `SPOTIFY_KEY`    | Spotify Client ID for your application.          |
 | `SPOTIFY_SECRET` | Spotify Client Secret paired with the client ID. |
 
 How to obtain the credentials:
