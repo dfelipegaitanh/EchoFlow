@@ -15,6 +15,7 @@ final class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.
+     *
      * @phpstan-ignore-next-line
      */
     private static ?string $password;
