@@ -3,36 +3,75 @@
 declare(strict_types=1);
 
 use App\Clients\Music\LastFmClient;
+use App\Collections\ArtistCollection;
+use App\DTOs\ArtistDto;
+use App\Enums\LastFmPeriod;
 use App\Exceptions\LastFmApiException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 
 it('fetches top artists for a user', function () {
     // Arrange
-    Http::fake([
-        'https://ws.audioscrobbler.com/2.0/*' => Http::response([
-            'topartists' => [
-                'artist' => [
-                    ['name' => 'The Weeknd'],
-                    ['name' => 'Daft Punk'],
-                ],
-            ],
-        ]),
+    fakeTopArtistsResponse([
+        fakeArtistData(),
+        fakeArtistData('twice'),
     ]);
 
-    $client = new LastFmClient('test-api-key');
+    // Configura la API key para el test
+    config(['services.lastfm.api_key' => 'test-api-key']);
+
+    $client = app(LastFmClient::class);
 
     // Act
-    $response = $client->getTopArtists('test-user', '7day', 2, 1);
+    $artists = $client->getUserTopArtists('test-user', LastFmPeriod::DAYS_7, 2, 1);
 
     // Assert
     Http::assertSent(function (Request $request) {
         return $request->url() === 'https://ws.audioscrobbler.com/2.0/?method=user.getTopArtists&api_key=test-api-key&format=json&user=test-user&period=7day&limit=2&page=1';
     });
 
-    expect($response->json('topartists.artist.0.name'))->toBe('The Weeknd')
-        ->and($response->json('topartists.artist.1.name'))->toBe('Daft Punk');
+    expect($artists)->toBeInstanceOf(ArtistCollection::class)
+        ->and($artists->items)->toHaveCount(2);
+
+    $firstArtist = $artists->items->first();
+    expect($firstArtist)->toBeInstanceOf(ArtistDto::class)
+        ->and($firstArtist->name)->toBe('IVE')
+        ->and($firstArtist->playcount)->toBe(2000)
+        ->and($firstArtist->mbid)->toBe('6c52643c-a9b3-452c-bd96-187a2e7b3c27');
 });
+
+// Helpers
+
+function fakeTopArtistsResponse(array $artists): void
+{
+    Http::fake([
+        'https://ws.audioscrobbler.com/2.0/*' => Http::response([
+            'topartists' => [
+                'artist' => $artists,
+            ],
+        ]),
+    ]);
+}
+
+function fakeArtistData(string $artist = 'ive', array $overrides = []): array
+{
+    $artists = [
+        'ive' => [
+            'name' => 'IVE',
+            'playcount' => 2000,
+            'mbid' => '6c52643c-a9b3-452c-bd96-187a2e7b3c27',
+            'url' => 'https://www.last.fm/music/IVE',
+        ],
+        'twice' => [
+            'name' => 'TWICE',
+            'playcount' => 1800,
+            'mbid' => '10175331-3253-4P75-8548-808501F51368',
+            'url' => 'https://www.last.fm/music/TWICE',
+        ],
+    ];
+
+    return array_merge($artists[$artist], $overrides);
+}
 
 it('throws specific exceptions for different API errors', function (int $errorCode, string $errorMessage, string $expectedMessage) {
     // Arrange
@@ -43,10 +82,13 @@ it('throws specific exceptions for different API errors', function (int $errorCo
         ], 500),
     ]);
 
-    $client = new LastFmClient('test-api-key');
+    // Configura la API key para el test
+    config(['services.lastfm.key' => 'test-api-key']);
+
+    $client = app(LastFmClient::class);
 
     // Act & Assert
-    expect(fn () => $client->getTopArtists('test-user'))
+    expect(fn () => $client->getUserTopArtists('test-user'))
         ->toThrow(LastFmApiException::class, $expectedMessage);
 })->with([
     [6, 'Invalid params', 'Invalid parameters: Invalid params'],

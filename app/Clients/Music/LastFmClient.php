@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace App\Clients\Music;
 
+use App\Collections\ArtistCollection;
+use App\Enums\LastFmPeriod;
 use App\Exceptions\LastFmApiException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
-final class LastFmClient
+final readonly class LastFmClient
 {
     private const BASE_URL = 'https://ws.audioscrobbler.com/2.0/';
 
     private PendingRequest $client;
 
-    public function __construct(private readonly string $apiKey)
+    public function __construct(private string $apiKey)
     {
         $this->client = Http::baseUrl(self::BASE_URL)
             ->withUserAgent('LastFmV2/1.0')
@@ -24,26 +26,26 @@ final class LastFmClient
             ->throw(fn ($response, $e) => $this->handleApiError($response));
     }
 
-    public function getTopArtists(string $user, string $period = 'overall', int $limit = 50, int $page = 1): Response
+    public function getUserTopArtists(string $user, LastFmPeriod $period = LastFmPeriod::OVERALL, int $limit = 50, int $page = 1): ArtistCollection
     {
-        return $this->get('user.getTopArtists', [
+        $response = $this->get('user.getTopArtists', [
             'user' => $user,
-            'period' => $period,
+            'period' => $period->value,
             'limit' => $limit,
             'page' => $page,
         ]);
+
+        return ArtistCollection::fromLastFm($response->json());
     }
 
     private function get(string $method, array $parameters = []): Response
     {
-        $response = $this->client->get('', [
+        return $this->client->get('', [
             'method' => $method,
             'api_key' => $this->apiKey,
             'format' => 'json',
             ...$parameters,
         ]);
-
-        return $response;
     }
 
     private function handleApiError(Response $response): void
