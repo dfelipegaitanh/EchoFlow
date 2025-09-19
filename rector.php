@@ -2,12 +2,19 @@
 
 declare(strict_types=1);
 
-use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
+use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 
 return RectorConfig::configure()
-    // register single rule
-    // here we can define, what prepared sets of rules will be applied
+    ->withPaths([
+        __DIR__.'/app',
+        __DIR__.'/bootstrap/app.php',
+        __DIR__.'/database',
+        __DIR__.'/public',
+    ])
+    ->withSkip([
+        AddOverrideAttributeToOverriddenMethodsRector::class,
+    ])
     ->withPreparedSets(
         deadCode: true,
         codeQuality: true,
@@ -15,11 +22,5 @@ return RectorConfig::configure()
         privatization: true,
         earlyReturn: true,
         strictBooleans: true,
-    )->withRules([
-        NewlineAfterStatementRector::class,
-    ])->withPaths([
-        __DIR__.'/app',
-        __DIR__.'/tests',
-        __DIR__.'/routes',
-        __DIR__.'/config',
-    ]);
+    )
+    ->withPhpSets();

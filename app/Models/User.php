@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 /**
  * @property string $name
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
