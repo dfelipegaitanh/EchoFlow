@@ -10,6 +10,7 @@ use App\Exceptions\LastFmApiException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use InvalidArgumentException;
 
 final readonly class LastFmClient
 {
@@ -29,8 +30,8 @@ final readonly class LastFmClient
     public function getUserTopArtists(string $user, LastFmPeriod $period = LastFmPeriod::OVERALL, int $limit = 50, int $page = 1): ArtistCollection
     {
 
-        if (empty($user)) {
-            throw new \InvalidArgumentException('User cannot be empty');
+        if ($user === '' || $user === '0') {
+            throw new InvalidArgumentException('User cannot be empty');
         }
 
         $response = $this->get('user.getTopArtists', [

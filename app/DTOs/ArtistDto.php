@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\DTOs;
 
+use InvalidArgumentException;
+
 final readonly class ArtistDto
 {
     public function __construct(
@@ -16,8 +18,8 @@ final readonly class ArtistDto
     public static function fromLastFm(array $data): self
     {
 
-        if (!isset($data['name'])) {
-            throw new \InvalidArgumentException('Missing required fields: name must be present');
+        if (! isset($data['name'])) {
+            throw new InvalidArgumentException('Missing required fields: name must be present');
         }
 
         return new self(
