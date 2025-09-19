@@ -40,6 +40,15 @@ it('fetches top artists for a user', function () {
         ->and($firstArtist->mbid)->toBe('6c52643c-a9b3-452c-bd96-187a2e7b3c27');
 });
 
+it('throws an exception when user is empty', function () {
+    // Arrange
+    $client = app(LastFmClient::class);
+
+    // Act & Assert
+    expect(fn () => $client->getUserTopArtists(''))
+        ->toThrow(InvalidArgumentException::class, 'User cannot be empty');
+});
+
 // Helpers
 
 function fakeTopArtistsResponse(array $artists): void
@@ -83,7 +92,7 @@ it('throws specific exceptions for different API errors', function (int $errorCo
     ]);
 
     // Configura la API key para el test
-    config(['services.lastfm.key' => 'test-api-key']);
+    config(['services.lastfm.api_key' => 'test-api-key']);
 
     $client = app(LastFmClient::class);
 

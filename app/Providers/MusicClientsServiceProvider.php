@@ -26,7 +26,7 @@ final class MusicClientsServiceProvider extends ServiceProvider implements Defer
         $this->app->singleton(LastFmClient::class, function (): LastFmClient {
             $apiKey = config('services.lastfm.api_key');
 
-            if (! is_string($apiKey)) {
+            if (! is_string($apiKey) || empty(trim($apiKey)) ) {
                 throw new RuntimeException('Last.fm API key is not configured.');
             }
 

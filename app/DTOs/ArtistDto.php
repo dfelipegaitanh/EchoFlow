@@ -15,6 +15,11 @@ final readonly class ArtistDto
 
     public static function fromLastFm(array $data): self
     {
+
+        if (!isset($data['name'])) {
+            throw new \InvalidArgumentException('Missing required fields: name must be present');
+        }
+
         return new self(
             name: $data['name'],
             playcount: (int) ($data['playcount'] ?? 0),
