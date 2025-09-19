@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Clients\Music\LastFmClient;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
 
-final class MusicClientsServiceProvider extends ServiceProvider implements DeferrableProvider
+final class MusicClientsServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
