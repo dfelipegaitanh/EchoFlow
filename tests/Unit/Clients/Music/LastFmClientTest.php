@@ -10,15 +10,16 @@ use App\Exceptions\LastFmApiException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 
+beforeEach(function () {
+    config(['services.lastfm.api_key' => 'test-api-key']);
+});
+
 it('fetches top artists for a user', function () {
     // Arrange
     fakeTopArtistsResponse([
         fakeArtistData(),
         fakeArtistData('twice'),
     ]);
-
-    // Configura la API key para el test
-    config(['services.lastfm.api_key' => 'test-api-key']);
 
     $client = app(LastFmClient::class);
 
@@ -90,9 +91,6 @@ it('throws specific exceptions for different API errors', function (int $errorCo
             'message' => $errorMessage,
         ], 500),
     ]);
-
-    // Configura la API key para el test
-    config(['services.lastfm.api_key' => 'test-api-key']);
 
     $client = app(LastFmClient::class);
 
