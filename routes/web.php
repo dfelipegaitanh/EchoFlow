@@ -9,11 +9,13 @@ Route::get('/', function (): Illuminate\Contracts\View\View|Illuminate\Contracts
     return view('welcome');
 })->name('home');
 
-Route::view('dashboard', 'dashboard')
+Volt::route('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::middleware(['auth'])->group(function (): void {
+    Volt::route('deezer', 'pages.deezer.index')->name('deezer.index');
+
     Route::redirect('settings', 'settings/profile');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
