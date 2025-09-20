@@ -14,16 +14,6 @@ if [ -n "$large_files" ]; then
   exit 1
 fi
 
-# Run format command and provide error message if it fails
-if [ -d "node_modules" ]; then
-  echo "Running code formatting..."
-  if ! npm run format; then
-    echo "❌ Error: Code formatting failed. Please fix the formatting issues before committing."
-    exit 1
-  fi
-else
-  echo "Skipping code formatting: node_modules directory not found"
-fi
 
 # Run TypeScript type checking
 if [ -d "node_modules" ] && [ -f "tsconfig.json" ]; then
@@ -93,27 +83,7 @@ elif [ ! -d "vendor" ]; then
   echo "Skipping PHP static analysis: vendor directory not found"
 fi
 
-# Run PHP code quality checks if Rector is available
-if [ -d "vendor" ] && [ -f "vendor/bin/rector" ]; then
-  echo "Running PHP code quality checks..."
-  if ! composer rector:dry-run; then
-    echo "❌ Error: PHP code quality checks failed. Please fix the issues before committing."
-    exit 1
-  fi
-elif [ ! -d "vendor" ]; then
-  echo "Skipping PHP code quality checks: vendor directory not found"
-fi
 
-# Run PHP code formatting if Laravel Pint is available
-if [ -d "vendor" ] && [ -f "vendor/bin/pint" ]; then
-  echo "Running PHP code formatting..."
-  if ! composer pint:test; then
-    echo "❌ Error: PHP code formatting check failed. Please run 'composer pint' to fix the issues before committing."
-    exit 1
-  fi
-elif [ ! -d "vendor" ]; then
-  echo "Skipping PHP code formatting: vendor directory not found"
-fi
 
 # Check for security vulnerabilities in dependencies
 echo "Checking for security vulnerabilities..."
@@ -139,5 +109,5 @@ else
   fi
 fi
 
-echo "✅ Pre-commit checks passed successfully!"
+echo "✅ Pre-push checks passed successfully!"
 

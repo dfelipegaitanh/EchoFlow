@@ -54,19 +54,17 @@ elif [ -n "$STAGED_PHP" ] && [ ! -f "vendor/bin/rector" ]; then
   echo "Skipping Rector: vendor/bin/rector not found"
 fi
 
-# Run project formatter via npm script (formats the repository)
+# Run Prettier formatting check (do not modify files). Fail if any would be changed.
 if [ -d "node_modules" ]; then
-  echo "Running npm run format..."
-  if ! npm run format; then
-    echo "❌ npm run format failed. Please fix formatting issues."
+  echo "Running Prettier formatting check..."
+  if ! npx prettier --check .; then
+    echo "❌ Prettier found files that are not formatted. Please run 'npm run format' to fix them, stage changes, and try again."
     exit 1
   fi
-  # Re-stage any files that were modified by the formatter
-  git add -A
 else
-  echo "Skipping npm format: node_modules not found"
+  echo "Skipping Prettier check: node_modules not found"
 fi
 
 # All done
-echo "✅ Pre-commit formatting and refactoring completed."
+echo "✅ Pre-commit checks completed."
 exit 0
