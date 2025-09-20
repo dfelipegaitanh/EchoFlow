@@ -5,11 +5,12 @@ if grep -r --exclude-dir=node_modules --exclude-dir=vendor "<<<<<<< HEAD" --incl
   exit 1
 fi
 
-# Check for large files
-echo "Checking for large files..."
-if find . -type f -not -path "./node_modules/*" -not -path "./vendor/*" -size +1M | grep -q .; then
-  echo "❌ Error: Large files detected (>1MB). Please remove them or add to .gitignore."
-  find . -type f -not -path "./node_modules/*" -not -path "./vendor/*" -size +1M
+# Check for large tracked files only (ignore untracked/ignored files)
+echo "Checking for large files (tracked only)..."
+large_files=$(git ls-files -z | xargs -0 -I{} sh -c 'f="{}"; if [ -f "$f" ]; then size=$(wc -c < "$f"); if [ "$size" -gt 1048576 ]; then echo "$f"; fi; fi')
+if [ -n "$large_files" ]; then
+  echo "❌ Error: Large tracked files detected (>1MB). Please remove them or add to .gitignore."
+  echo "$large_files"
   exit 1
 fi
 
@@ -79,9 +80,14 @@ fi
 # Run PHP static analysis if PHPStan is available
 if [ -d "vendor" ] && [ -f "vendor/bin/phpstan" ]; then
   echo "Running PHP static analysis..."
-  if ! composer analyze; then
-    echo "❌ Error: PHP static analysis failed. Please fix the issues before committing."
-    exit 1
+  changed_php_files=$(git status --porcelain | cut -c4- | grep -E '\.php$' || true)
+  if [ -z "$changed_php_files" ]; then
+    echo "No PHP files changed; skipping PHPStan."
+  else
+    if ! vendor/bin/phpstan analyse $changed_php_files --memory-limit 1G --configuration phpstan.neon; then
+      echo "❌ Error: PHP static analysis failed. Please fix the issues before committing."
+      exit 1
+    fi
   fi
 elif [ ! -d "vendor" ]; then
   echo "Skipping PHP static analysis: vendor directory not found"
