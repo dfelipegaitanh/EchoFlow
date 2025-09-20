@@ -42,4 +42,10 @@ return [
         'username' => env('LASTFM_USER'),
     ],
 
+    'deezer' => [
+        'client_id' => env('DEEZER_CLIENT_ID'),
+        'client_secret' => env('DEEZER_CLIENT_SECRET'),
+        'redirect' => env('DEEZER_REDIRECT_URI'),
+    ],
+
 ];
