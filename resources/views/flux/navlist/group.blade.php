@@ -6,6 +6,7 @@
 
 <?php if ($expandable && $heading): ?>
 
+<!--
 <ui-disclosure
     {{ $attributes->class('group/disclosure') }}
     @if ($expanded === true) open @endif
@@ -29,17 +30,14 @@
         {{ $slot }}
     </div>
 </ui-disclosure>
+-->
 
 <?php elseif ($heading): ?>
 
-<div {{ $attributes->class('block space-y-[2px]') }}>
-    <div class="px-1 py-2">
-        <div class="text-xs leading-none text-zinc-400">{{ $heading }}</div>
-    </div>
+<a href="#" class="text-gradient text-2xl font-extrabold" onclick="hideAllSections()">{{ $heading }}</a>
 
-    <div>
-        {{ $slot }}
-    </div>
+<div class="flex items-center space-x-4">
+    {{ $slot }}
 </div>
 
 <?php else: ?>

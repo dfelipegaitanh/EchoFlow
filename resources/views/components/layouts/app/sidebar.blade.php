@@ -80,12 +80,8 @@
         </style>
     </head>
     <body class="bg-dark-bg text-dark-text">
-        <!-- Navbar -->
-        <nav
-            class="bg-dark-card fixed top-0 right-0 left-0 z-50 flex items-center justify-between p-4 shadow-lg transition-colors duration-300"
-        >
-            <a href="#" class="text-gradient text-2xl font-extrabold" onclick="hideAllSections()">Música</a>
-            <div class="flex items-center space-x-4">
+        <flux:navlist variant="">
+            <flux:navlist.group :heading="__('Música')">
                 <button
                     id="theme-toggle"
                     class="rounded-full bg-gray-700 p-2 text-gray-200 transition-colors hover:bg-gray-600"
@@ -141,8 +137,8 @@
                         ></path>
                     </svg>
                 </a>
-            </div>
-        </nav>
+            </flux:navlist.group>
+        </flux:navlist>
 
         <!-- Contenedor principal de la página -->
         <main class="container mx-auto mt-24 max-w-5xl p-4">

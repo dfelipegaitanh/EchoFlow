@@ -38,6 +38,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             if ($entry->isScheduledTask()) {
                 return true;
             }
+
             return $entry->hasMonitoredTag();
         });
     }
@@ -49,7 +50,7 @@ final class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate(): void
     {
-        Gate::define('viewTelescope', fn($user): bool => in_array($user->email, [
+        Gate::define('viewTelescope', fn ($user): bool => in_array($user->email, [
             //
         ]));
     }
