@@ -54,15 +54,17 @@ elif [ -n "$STAGED_PHP" ] && [ ! -f "vendor/bin/rector" ]; then
   echo "Skipping Rector: vendor/bin/rector not found"
 fi
 
-# Run Prettier formatting check (do not modify files). Fail if any would be changed.
-if [ -d "node_modules" ]; then
-  echo "Running Prettier formatting check..."
-  if ! npx prettier --check .; then
+# Run Prettier formatting check on staged files (do not modify files). Fail if any would be changed.
+if [ -d "node_modules" ] && [ -n "$STAGED_PRETTIER" ]; then
+  echo "Running Prettier formatting check on staged files..."
+  if ! npx prettier --check $STAGED_PRETTIER; then
     echo "❌ Prettier found files that are not formatted. Please run 'npm run format' to fix them, stage changes, and try again."
     exit 1
   fi
-else
+elif [ ! -d "node_modules" ]; then
   echo "Skipping Prettier check: node_modules not found"
+else
+  echo "No staged files require Prettier. Skipping."
 fi
 
 # All done

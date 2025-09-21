@@ -7,7 +7,7 @@
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --passWithNoTests",
-    "format": "prettier --write .",
+    "format": "node scripts/format-changed.mjs",
     "typecheck": "npx tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
