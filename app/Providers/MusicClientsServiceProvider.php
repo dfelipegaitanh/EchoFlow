@@ -24,7 +24,7 @@ final class MusicClientsServiceProvider extends ServiceProvider
 
     private function bindDeezerClient(): void
     {
-        $this->app->singleton(DeezerClient::class, fn (): \App\Clients\Music\DeezerClient => new DeezerClient());
+        $this->app->singleton(DeezerClient::class, fn (): DeezerClient => new DeezerClient());
     }
 
     private function bindLastFmClient(): void

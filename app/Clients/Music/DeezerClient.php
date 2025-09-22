@@ -30,6 +30,10 @@ final readonly class DeezerClient
     {
         $response = $this->client->get('/search/artist', ['q' => $name]);
 
+        if ($error = $response->json('error')) {
+            throw new DeezerApiException($error['message'] ?? 'Unknown Error', $error['code'] ?? 0);
+        }
+
         $data = $response->collect('data');
 
         if ($data->isEmpty()) {

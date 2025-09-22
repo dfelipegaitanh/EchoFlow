@@ -26,7 +26,7 @@ final readonly class ArtistDto
 
     public static function fromDeezer(array $data): self
     {
-        if (! isset($data['name'], $data['link'])) {
+        if (! isset($data['name'], $data['link'], $data['id'])) {
             throw new InvalidArgumentException('Missing required fields: name and link must be present');
         }
 
