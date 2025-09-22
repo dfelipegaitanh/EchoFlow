@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Clients\Music\DeezerClient;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -21,6 +22,10 @@ Route::middleware(['auth'])->group(function (): void {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+});
+
+Route::get('/test-deezer/{artistName}', function (string $artistName, DeezerClient $client) {
+    return $client->searchArtist($artistName)?->toJson();
 });
 
 require __DIR__.'/auth.php';

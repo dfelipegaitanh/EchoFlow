@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use App\Clients\Music\DeezerClient;
 use App\Clients\Music\LastFmClient;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
@@ -18,6 +19,12 @@ final class MusicClientsServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->bindLastFmClient();
+        $this->bindDeezerClient();
+    }
+
+    private function bindDeezerClient(): void
+    {
+        $this->app->singleton(DeezerClient::class, fn (): \App\Clients\Music\DeezerClient => new DeezerClient());
     }
 
     private function bindLastFmClient(): void
