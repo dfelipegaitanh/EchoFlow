@@ -43,9 +43,10 @@ return [
     ],
 
     'deezer' => [
-        'client_id' => env('DEEZER_CLIENT_ID'),
-        'client_secret' => env('DEEZER_CLIENT_SECRET'),
-        'redirect' => env('DEEZER_REDIRECT_URI'),
+        'app_id' => env('DEEZER_APP_ID'),
+        'app_name' => env('DEEZER_APP_NAME'),
+        'app_secret_key' => env('DEEZER_APP_SECRET_KEY'),
+        'app_domain' => env('DEEZER_APP_DOMAIN'),
     ],
 
 ];
