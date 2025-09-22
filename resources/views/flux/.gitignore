@@ -1,6 +1,0 @@
-# Ignorar todos los archivos y directorios en este directorio
-*
-# Excepto el directorio navlist (que contiene componentes personalizados)
-!/navlist/
-# Excepto este archivo .gitignore
-!.gitignore

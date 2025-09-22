@@ -1,6 +1,0 @@
-# Ignorar todos los archivos en este directorio
-*
-# Excepto el archivo index.blade.php (que hemos personalizado)
-!index.blade.php
-# Excepto este archivo .gitignore
-!.gitignore
