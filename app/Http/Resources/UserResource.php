@@ -17,14 +17,12 @@ final class UserResource extends JsonResource
         return [
             'email' => $this->email,
             'name' => $this->name,
-            //            'lastfm_user' => $this->lastfm_user,
-            'token' => $this->resource
-                ->createToken(
-                    'Token: '.$this->email,
-                    ['*'],
-                    now()->addDay()
-                )
-                ->plainTextToken,
+            'permissions' => $this->resource->getAllPermissions(),
+            'token' => $this->resource->createToken(
+                'Token: '.$this->email,
+                ['*'],
+                now()->addDay()
+            )->plainTextToken,
         ];
     }
 }

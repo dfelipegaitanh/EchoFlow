@@ -7,6 +7,17 @@ use Livewire\Volt\Volt as LivewireVolt;
 
 uses(Illuminate\Foundation\Testing\RefreshDatabase::class);
 
+test('Can login', function () {
+
+    $user = User::factory(
+    )->create();
+
+    $response = $this->actingAs($user)
+        ->post(route('api.login'), ['email' => $user->email, 'password' => 'password']);
+
+    $response->assertStatus(200);
+});
+
 test('login screen can be rendered', function (): void {
     $response = $this->get(route('login'));
 

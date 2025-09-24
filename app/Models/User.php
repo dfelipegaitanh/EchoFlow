@@ -15,11 +15,33 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * @property string $name
  * @property string $email
+ * @property string $last_fm_username
+ * @property bool $can_last_fm
+ * @property bool $can_spotify
+ * @property bool $can_deezer
  */
 final class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
+
+    public const ALL = [
+        self::LAST_FM,
+        self::SPOTIFY,
+        self::DEEZER,
+    ];
+
+    public const DEEZER = 'deezer';
+
+    public const LAST_FM = 'last_fm';
+
+    public const PERMISSIONS = [
+        self::LAST_FM => 'last_fm',
+        self::SPOTIFY => 'spotify',
+        self::DEEZER => 'deezer',
+    ];
+
+    public const SPOTIFY = 'spotify';
 
     /**
      * The attributes that are mass assignable.
@@ -41,6 +63,24 @@ final class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function getAllPermissions(): string
+    {
+        $permissions = [];
+        if ($this->last_fm_username && $this->can_last_fm) {
+            $permissions[] = self::PERMISSIONS[self::LAST_FM];
+        }
+
+        if ($this->can_deezer) {
+            $permissions[] = self::PERMISSIONS[self::DEEZER];
+        }
+
+        if ($this->can_spotify) {
+            $permissions[] = self::PERMISSIONS[self::SPOTIFY];
+        }
+
+        return implode(',', $permissions);
+    }
 
     /**
      * Get the user's initials
