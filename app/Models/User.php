@@ -66,7 +66,9 @@ final class User extends Authenticatable
 
     public function getAllPermissions(): string
     {
+
         $permissions = [];
+        /*
         if ($this->last_fm_username && $this->can_last_fm) {
             $permissions[] = self::PERMISSIONS[self::LAST_FM];
         }
@@ -78,6 +80,7 @@ final class User extends Authenticatable
         if ($this->can_spotify) {
             $permissions[] = self::PERMISSIONS[self::SPOTIFY];
         }
+        */
 
         return implode(',', $permissions);
     }

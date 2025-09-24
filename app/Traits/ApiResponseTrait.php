@@ -18,10 +18,10 @@ trait ApiResponseTrait
         ], $code);
     }
 
-    protected function notContent(): Response
-    {
-        return response()->noContent();
-    }
+    //    protected function notContent(): Response
+    //    {
+    //        return response()->noContent();
+    //    }
 
     protected function ok(string $message, UserResource $data): JsonResponse
     {

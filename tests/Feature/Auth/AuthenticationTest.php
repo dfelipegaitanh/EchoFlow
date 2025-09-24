@@ -18,6 +18,16 @@ test('Can login', function () {
     $response->assertStatus(200);
 });
 
+test('Login with wrong password', function () {
+
+    $user = User::factory(
+    )->create();
+    $response = $this->actingAs($user)
+        ->post(route('api.login'), ['email' => $user->email, 'password' => 'wrong-password']);
+
+    $response->assertStatus(401);
+});
+
 test('login screen can be rendered', function (): void {
     $response = $this->get(route('login'));
 
