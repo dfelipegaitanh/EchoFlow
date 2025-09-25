@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DTOs\Shared;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 use ReflectionProperty;
@@ -45,5 +46,13 @@ trait HasConversions
     public function toJson(): string
     {
         return $this->toCollection()->toJson();
+    }
+
+    /**
+     * Convert the DTO to a JSON response.
+     */
+    public function toJsonResponse(): JsonResponse
+    {
+        return response()->json($this->toCollection());
     }
 }

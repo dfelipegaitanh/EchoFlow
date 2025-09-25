@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Clients;
 
 use App\Clients\Music\DeezerClient;
-use App\DTOs\ArtistDto;
+use App\Exceptions\DeezerApiException;
 use Illuminate\Support\Facades\Http;
 use Tests\Traits\ProvidesDeezerFixtures;
 
@@ -27,9 +27,9 @@ it('returns an artist DTO when searching for an existing artist', function () {
     $result = app(DeezerClient::class)->searchArtist($artistName);
 
     // Assert
-    expect($result)->toBeInstanceOf(ArtistDto::class)
-        ->and($result->name)->toBe($artistName)
-        ->and($result->url)->toBe('https://www.deezer.com/artist/27');
+    expect($result)->toBeArray()
+        ->and($result['name'])->toBe($artistName)
+        ->and($result['link'])->toBe('https://www.deezer.com/artist/27');
 });
 
 it('returns null when searching for a non-existing artist', function () {
@@ -56,7 +56,7 @@ it('returns null when no exact match is found', function () {
     $result = app(DeezerClient::class)->searchArtist('Daft Punkish');
 
     // Assert: The result should be null because no exact match was found.
-    expect($result)->toBeNull();
+    expect($result)->toBeEmpty();
 });
 
 it('throws an exception on api error', function () {
@@ -69,5 +69,5 @@ it('throws an exception on api error', function () {
 
     // Act & Assert: Expect our custom DeezerApiException to be thrown.
     expect(fn () => app(DeezerClient::class)->searchArtist('any'))
-        ->toThrow(\App\Exceptions\DeezerApiException::class, 'No data');
+        ->toThrow(DeezerApiException::class, 'No data');
 });

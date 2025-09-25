@@ -24,6 +24,22 @@ final readonly class ArtistDto
         public string $tracklist,
     ) {}
 
+    public static function empty(): self
+    {
+        return new self(
+            name: '',
+            playcount: 0,
+            mbid: null,
+            url: '',
+            pictureMedium: '',
+            pictureXl: '',
+            nbAlbum: 0,
+            nbFan: 0,
+            radio: false,
+            tracklist: '',
+        );
+    }
+
     public static function fromDeezer(array $data): self
     {
         if (! isset($data['name'], $data['link'], $data['id'])) {

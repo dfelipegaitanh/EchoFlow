@@ -9,7 +9,7 @@ use App\Exceptions\DeezerApiException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
-use Str;
+use Illuminate\Support\Str;
 
 final readonly class DeezerClient
 {
@@ -26,9 +26,22 @@ final readonly class DeezerClient
             ->throw(fn (Response $response) => $this->handleApiError($response));
     }
 
-    public function searchArtist(string $name): ?ArtistDto
+    public function getArtist(string $artistName): ArtistDto
     {
-        $response = $this->client->get('/search/artist', ['q' => $name]);
+        $artist = $this->searchArtist($artistName);
+
+        if (is_null($artist) || $artist === []) {
+            return ArtistDto::empty();
+        }
+
+        $response = $this->client->get('/artist/'.$artist['id']);
+
+        return ArtistDto::fromDeezer($response->collect()->toArray());
+    }
+
+    public function searchArtist(string $artistName): ?array
+    {
+        $response = $this->client->get('/search/artist', ['q' => $artistName]);
 
         if ($error = $response->json('error')) {
             throw new DeezerApiException($error['message'] ?? 'Unknown Error', $error['code'] ?? 0);
@@ -39,14 +52,10 @@ final readonly class DeezerClient
         if ($data->isEmpty()) {
             return null;
         }
-        // @phpstan-ignore-next-line
-        $artist = $data->first(fn ($item): bool => Str::lower($item['name']) === Str::lower($name));
+        $artist = $data->first(fn ($item): bool => Str::lower($item['name']) === Str::lower($artistName));
 
-        if (is_null($artist)) {
-            return null;
-        }
+        return collect($artist)->toArray();
 
-        return ArtistDto::fromDeezer($artist);
     }
 
     private function handleApiError(Response $response): never
