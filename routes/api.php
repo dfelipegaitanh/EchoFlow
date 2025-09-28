@@ -15,6 +15,7 @@ Route::middleware('auth:sanctum')->name('api.')
             ->group(function () {
 
                 Route::get('/artist/{artistName}', [ArtistController::class, 'getArtist'])
+                    ->where('artistName', '^(?!\s*$)[a-zA-Z0-9\s\-_\.]{1,255}$')
                     ->name('artist-get');
 
             });

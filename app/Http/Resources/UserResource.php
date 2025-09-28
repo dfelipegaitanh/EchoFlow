@@ -17,10 +17,9 @@ final class UserResource extends JsonResource
         return [
             'email' => $this->email,
             'name' => $this->name,
-            'permissions' => $this->resource->getAllPermissions(),
             'token' => $this->resource->createToken(
                 'Token: '.$this->email,
-                ['*'],
+                ['ability:'.$this->resource->getAllPermissions()],
                 now()->addDay()
             )->plainTextToken,
         ];
