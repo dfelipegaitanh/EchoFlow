@@ -24,6 +24,7 @@ final readonly class ArtistDto
         public string $tracklist,
     ) {}
 
+    /*
     public static function empty(): self
     {
         return new self(
@@ -39,6 +40,7 @@ final readonly class ArtistDto
             tracklist: '',
         );
     }
+    */
 
     public static function fromDeezer(array $data): self
     {

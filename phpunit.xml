@@ -24,8 +24,6 @@
             <directory>app</directory>
         </include>
         <exclude>
-            <file>app/Http/Controllers/Auth/DeezerAuthController.php</file>
-            <file>DTOs/Shared/HasConversions.php</file>
         </exclude>
     </source>
     <php>

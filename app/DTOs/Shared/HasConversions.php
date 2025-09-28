@@ -43,10 +43,12 @@ trait HasConversions
     /**
      * Convert the DTO to a JSON string.
      */
+    /*
     public function toJson(): string
     {
         return $this->toCollection()->toJson();
     }
+    */
 
     /**
      * Convert the DTO to a JSON response.

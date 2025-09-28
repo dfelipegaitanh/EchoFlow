@@ -57,15 +57,16 @@ final readonly class DeezerClient
 
         return collect($artist)->toArray();
     }
+    /*
+        private function handleApiError(Response $response): never
+        {
+            $body = $response->json() ?? [];
+            $error = $body['error'] ?? [];
 
-    private function handleApiError(Response $response): never
-    {
-        $body = $response->json() ?? [];
-        $error = $body['error'] ?? [];
+            $message = $error['message'] ?? 'Unknown Deezer API error.';
+            $code = $error['code'] ?? 0;
 
-        $message = $error['message'] ?? 'Unknown Deezer API error.';
-        $code = $error['code'] ?? 0;
-
-        throw new DeezerApiException($message, $code);
-    }
+            throw new DeezerApiException($message, $code);
+        }
+    */
 }
