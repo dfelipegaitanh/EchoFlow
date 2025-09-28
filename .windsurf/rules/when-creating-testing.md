@@ -1,12 +1,14 @@
 ---
-trigger: model_decision
-description: When creating Test
+trigger: always_on
+description: 
+globs: 
 ---
 
-# MUST DO
+# MUST DO WHEN CREATE A UNIT TEST
 
 - Use JEST for any typescript code
 - Use PEST for any PHP code
+- Never use PHPUnit
 
 # Testing Practices
 

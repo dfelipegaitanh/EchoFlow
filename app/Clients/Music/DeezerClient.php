@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Clients\Music;
 
 use App\DTOs\ArtistDto;
+use App\Exceptions\ArtistNotFoundException;
 use App\Exceptions\DeezerApiException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
@@ -30,16 +31,12 @@ final readonly class DeezerClient
     {
         $artist = $this->searchArtist($artistName);
 
-        if (is_null($artist) || $artist === []) {
-            return ArtistDto::empty();
-        }
-
         $response = $this->client->get('/artist/'.$artist['id']);
 
         return ArtistDto::fromDeezer($response->collect()->toArray());
     }
 
-    public function searchArtist(string $artistName): ?array
+    public function searchArtist(string $artistName): array
     {
         $response = $this->client->get('/search/artist', ['q' => $artistName]);
 
@@ -50,12 +47,15 @@ final readonly class DeezerClient
         $data = $response->collect('data');
 
         if ($data->isEmpty()) {
-            return null;
+            throw new ArtistNotFoundException('Artist not found');
         }
         $artist = $data->first(fn ($item): bool => Str::lower($item['name']) === Str::lower($artistName));
 
-        return collect($artist)->toArray();
+        if ($artist === null) {
+            throw new ArtistNotFoundException('Artist not found');
+        }
 
+        return collect($artist)->toArray();
     }
 
     private function handleApiError(Response $response): never
