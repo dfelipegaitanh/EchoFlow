@@ -20,8 +20,7 @@ jobs:
             image: mysql:8.0
             env:
               MYSQL_DATABASE: echoflow_testing
-              MYSQL_USER: felipe
-              MYSQL_PASSWORD: gaitan
+              MYSQL_ROOT_PASSWORD: root
             ports:
               - 3306:3306
             options: >-
