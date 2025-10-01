@@ -37,6 +37,13 @@ return [
         ],
     ],
 
+    'deezer' => [
+        'app_id' => env('DEEZER_APP_ID'),
+        'app_name' => env('DEEZER_APP_NAME'),
+        'app_secret_key' => env('DEEZER_APP_SECRET_KEY'),
+        'app_domain' => env('DEEZER_APP_DOMAIN'),
+    ],
+
     'lastfm' => [
         'api_key' => env('LASTFM_API_KEY'),
         'username' => env('LASTFM_USER'),

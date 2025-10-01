@@ -32,12 +32,12 @@ How to obtain the credentials:
 
 ## Deezer configuration
 
-| Variable            | Description                                                                               |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| `DEEZER_APP_ID`     | Numeric identifier provided for your Deezer application.                                  |
-| `DEEZER_APP_NAME`   | Display name you assign to the Deezer application.                                        |
-| `DEEZER_APP_KEY`    | Secret key used to sign Deezer API requests.                                              |
-| `DEEZER_APP_DOMAIN` | Redirect domain you authorize in the Deezer developer console (often `http://localhost`). |
+| Variable                | Description                                                                               |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
+| `DEEZER_APP_ID`         | Numeric identifier provided for your Deezer application.                                  |
+| `DEEZER_APP_NAME`       | Display name you assign to the Deezer application.                                        |
+| `DEEZER_APP_SECRET_KEY` | Secret key used to sign Deezer API requests.                                              |
+| `DEEZER_APP_DOMAIN`     | Redirect domain you authorize in the Deezer developer console (often `http://localhost`). |
 
 How to obtain the credentials:
 

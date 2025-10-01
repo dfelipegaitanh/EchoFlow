@@ -31,6 +31,7 @@ final class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes): array => [
             'can_last_fm' => true,
+            'last_fm_username' => fake()->userName(),
         ]);
     }
 
@@ -75,6 +76,13 @@ final class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes): array => [
             'last_fm_username' => fake()->userName(),
+        ]);
+    }
+
+    public function without_last_fm_username(): self
+    {
+        return $this->state(fn (array $attributes): array => [
+            'last_fm_username' => '',
         ]);
     }
 }

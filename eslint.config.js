@@ -16,8 +16,8 @@ export default [
     ignores: ['node_modules/**', 'vendor/**', 'public/**', 'storage/**', 'bootstrap/cache/**'],
   },
   {
-    // Configuración para todos los archivos JavaScript
-    files: ['**/*.js'],
+    // Configuración para archivos JavaScript/Node (incluye .js, .mjs, .cjs)
+    files: ['**/*.{js,mjs,cjs}'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',

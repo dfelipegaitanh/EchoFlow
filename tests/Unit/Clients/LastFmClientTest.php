@@ -9,6 +9,9 @@ use App\Enums\LastFmPeriod;
 use App\Exceptions\LastFmApiException;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Tests\Traits\ProvidesLastFmFixtures;
+
+uses(ProvidesLastFmFixtures::class);
 
 beforeEach(function () {
     config(['services.lastfm.api_key' => 'test-api-key']);
@@ -16,9 +19,9 @@ beforeEach(function () {
 
 it('fetches top artists for a user', function () {
     // Arrange
-    fakeTopArtistsResponse([
-        fakeArtistData(),
-        fakeArtistData('twice'),
+    $this->fakeTopArtistsResponse([
+        $this->fakeArtistData('ive'),
+        $this->fakeArtistData('twice'),
     ]);
 
     $client = app(LastFmClient::class);
@@ -49,39 +52,6 @@ it('throws an exception when user is empty', function () {
     expect(fn () => $client->getUserTopArtists(''))
         ->toThrow(InvalidArgumentException::class, 'User cannot be empty');
 });
-
-// Helpers
-
-function fakeTopArtistsResponse(array $artists): void
-{
-    Http::fake([
-        'https://ws.audioscrobbler.com/2.0/*' => Http::response([
-            'topartists' => [
-                'artist' => $artists,
-            ],
-        ]),
-    ]);
-}
-
-function fakeArtistData(string $artist = 'ive', array $overrides = []): array
-{
-    $artists = [
-        'ive' => [
-            'name' => 'IVE',
-            'playcount' => 2000,
-            'mbid' => '6c52643c-a9b3-452c-bd96-187a2e7b3c27',
-            'url' => 'https://www.last.fm/music/IVE',
-        ],
-        'twice' => [
-            'name' => 'TWICE',
-            'playcount' => 1800,
-            'mbid' => '10175331-3253-4P75-8548-808501F51368',
-            'url' => 'https://www.last.fm/music/TWICE',
-        ],
-    ];
-
-    return array_merge($artists[$artist], $overrides);
-}
 
 it('throws specific exceptions for different API errors', function (int $errorCode, string $errorMessage, string $expectedMessage) {
     // Arrange
