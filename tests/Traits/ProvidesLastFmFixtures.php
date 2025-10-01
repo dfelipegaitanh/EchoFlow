@@ -26,7 +26,7 @@ trait ProvidesLastFmFixtures
             'twice' => [
                 'name' => 'TWICE',
                 'playcount' => 1800,
-                'mbid' => '10175331-3253-4P75-8548-808501F51368',
+                'mbid' => '10175331-3253-4f75-8548-808501f51368',
                 'url' => 'https://www.last.fm/music/TWICE',
                 'image' => [
                     ['#text' => '', 'size' => 'small'],

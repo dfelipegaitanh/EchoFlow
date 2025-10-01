@@ -53,12 +53,12 @@ final readonly class ArtistDto
             playcount: (int) ($data['nb_fan'] ?? 0),
             mbid: null,
             url: $data['link'],
-            pictureMedium: $data['picture_medium'],
-            pictureXl: $data['picture_xl'],
+            pictureMedium: (string) ($data['picture_medium'] ?? ''),
+            pictureXl: (string) ($data['picture_xl'] ?? ''),
             nbAlbum: (int) ($data['nb_album'] ?? 0),
             nbFan: (int) ($data['nb_fan'] ?? 0),
             radio: (bool) ($data['radio'] ?? false),
-            tracklist: $data['tracklist']
+            tracklist: (string) ($data['tracklist'] ?? '')
         );
     }
 

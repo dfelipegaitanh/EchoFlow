@@ -90,6 +90,6 @@ it('returns a forbidden response for a user without deezer permission', function
     $artist = 'xxx....xxxx';
 
     $response = $this->get(route('api.deezer.artist-get', $artist));
-    $response->assertForbidden();
+    $response->asssertStatus(300);
 
 });

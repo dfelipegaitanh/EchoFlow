@@ -24,6 +24,19 @@ trait HasConversions
         $data = [];
 
         foreach ($properties as $property) {
+            // Skip static properties—they aren’t part of this DTO instance’s data.
+            if ($property->isStatic()) {
+                continue;
+            }
+
+            // If a typed property hasn’t been initialized yet, avoid a fatal error and emit null.
+            if (! $property->isInitialized($this)) {
+                $data[$property->getName()] = null;
+
+                continue;
+            }
+
+            // Safe to read now that it’s initialized and non-static.
             $data[$property->getName()] = $property->getValue($this);
         }
 
