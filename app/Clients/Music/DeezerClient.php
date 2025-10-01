@@ -23,8 +23,8 @@ final readonly class DeezerClient
         $this->client = Http::baseUrl(self::BASE_URL)
             ->withUserAgent('EchoFlow/1.0')
             ->timeout(30)
-            ->retry(3, 100)
-            ->throw(fn (Response $response) => $this->handleApiError($response));
+            ->retry(3, 100);
+        //            ->throw(fn (Response $response) => $this->handleApiError($response))
     }
 
     public function getArtist(string $artistName): ArtistDto
