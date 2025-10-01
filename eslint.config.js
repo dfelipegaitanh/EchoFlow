@@ -13,7 +13,7 @@ export default [
   },
   {
     // Ignorar directorios específicos
-    ignores: ['node_modules/**', 'vendor/**', 'public/**', 'storage/**', 'bootstrap/cache/**'],
+    ignores: ['node_modules/**', 'vendor/**', 'public/**', 'storage/**', 'bootstrap/cache/**', 'coverage/**', 'coverage_php/**'],
   },
   {
     // Configuración para archivos JavaScript/Node (incluye .js, .mjs, .cjs)

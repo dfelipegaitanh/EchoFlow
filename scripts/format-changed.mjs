@@ -34,8 +34,11 @@ const modifiedTracked = run('git ls-files -m');
 // Include untracked (new) files that are not ignored
 const untracked = run('git ls-files --others --exclude-standard');
 
+// Exclude noisy or generated directories
+const EXCLUDED_DIRS = ['coverage/', 'coverage_php/'];
+
 const files = unique([...changedVsHead.split('\n'), ...modifiedTracked.split('\n'), ...untracked.split('\n')]).filter(
-    f => EXT_REGEX.test(f) && existsSync(f)
+    f => EXT_REGEX.test(f) && existsSync(f) && !EXCLUDED_DIRS.some(dir => f.startsWith(dir))
 );
 
 if (files.length === 0) {
